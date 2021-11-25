@@ -1,8 +1,8 @@
-# Performance Comparision of Stock Analysis Tool and Subsequent Refactor
+# Stock Analysis Tool - Data Analysis and Refactor
 
 ## Purpose
 
-This repository is a comparative analysis of a tool designed in Excel with supporting VBA macros for consumption stock ticker data and calculation of  annual metrics on total trading volume and annual return.  Intent is to demonstrate the impact of a refactor in significantly reducing burden in a small data set before scaling to accomodate larger data sets.  The original design, while accurate, already showed signs of slowness in a small data set.
+This repository is a comparative analysis of a tool designed in Excel with supporting VBA macros for consumption of stock ticker data and calculation of  annual metrics on total trading volume and annual return in 2017 and 2018.  Intent is to demonstrate the impact of a refactor in significantly reducing burden in a small data set before scaling to accomodate larger data sets.  The original design, while accurate, already showed signs of slowness in a small data set.
 
 ## Tool
 
@@ -81,7 +81,26 @@ For i = 2 To RowCount
         
 Next i
 ```
-## Benefits and risks of refactoring
+## Analysis
+
+### Results
+
+![2017 good](resources/VBA_Challenge_2017.png)
+![2017 bad](resources/VBA_Challenge_2018.png)
+
+### Observations
+
+ENPH stands out as a star performerin return. DQ saw most dramatic downward swing in return. Daily volume does not appear to have an impact on performance.
+
+### Data limitations
+
+Design of current framework is built on major assumptions about value of data, including:
+* Design assumes sequential data, ordered by stock ticker and date.
+* Design assumes a fixed quantity of stock tickers (12 total)
+
+## Refactoring
+
+### Benefits and risks
 
 Refactoring of complex analytical calculations is often mandatory given a large or growing data set.  The larger the data's volume and the more complex the required calculations are, the more that inefficient code can contribute to slowness and even full process failure by way of timeouts.
 
@@ -91,23 +110,21 @@ Primary risk of refactor is the addition of new unintended defects based on a fa
 
 Something about technical debt.
 
-## Analysis
-
-### Methodology
+### Refactor Performance Testing Methodology
 
 Time is recorded for full execution of both versions of the code using the VBA `Timer` function, which is called at the beginning and end of the subroutines to establish total duration.
 
-Time for each was run three times, for both subroutines, with the .  See attached screenshots for sample output from before and after:
+Time for each was run three times, for both subroutines, with the year 2017 applied (operating assumption is that specified year does not matter as the data sets are roughly identicial).  See attached screenshots for sample output from before and after:
 
-### Outcome
+### Refactor Performance Testing Outcome
 
 Reduction of for loops reduces number of row processing events by 91.67%.  
 Assuming a linear value for processing, this should reduce overall burden of the code above by a similar percentage, and additionally 
 
 ## Limitations of current design / Opportunities for future refactors
 
-* Scale this further with larger data set?  Assuming a linear progression, the original one would potentially take x seconds and the new one would take y seconds.
-* Design assumes sequential data, ordered by stock ticker and date.
-* Design assumes a fixed quantity of stock tickers
-* Test for loop directly rather than further code set to further refine refactor
-* Ticker does not factor in (?)
+Test framework is limited due to reliance on manual execution to test performance and subsequent small sample size.  For more accurate or robust data set, suggest building a data testing subroutine within the existing test framework by doing the following:
+* Parameterize existing functions by adding**FIXME**
+* Build for loops to test *x* years with *y* times repeated, and store the data from these runs on the same sheet by adding a print function to end of existing methodologies.
+
+Scale this further with larger data set?  Assuming a linear progression, the original one would potentially take x seconds and the new one would take y seconds.
