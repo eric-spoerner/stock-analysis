@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This report is a comparative analysis of a tool designed in Excel with VBA macros for consuming stock ticker data and calculating annual metrics on total trading volume and annual return.  Intent is to demonstrate the impact of a refactor in significantly reducing burden in a small data set before scaling to accomodate larger data sets.  The original design, while accurate, already showed signs of slowness in a small data set.
+This repository is a comparative analysis of a tool designed in Excel with supporting VBA macros for consumption stock ticker data and calculation of  annual metrics on total trading volume and annual return.  Intent is to demonstrate the impact of a refactor in significantly reducing burden in a small data set before scaling to accomodate larger data sets.  The original design, while accurate, already showed signs of slowness in a small data set.
 
 ## Tool
 
@@ -27,7 +27,7 @@ Tabular data is stored in Excel spreadsheet (vba_challenge.xlsm), with data bein
 
 ### Original
 
-Original design is contained in the Module 1 subroutine `yearValueAnalysis()`.  The below snippet contains the original design for the actual process of iterating through each ticker.  Design iterates for each ticker in the `tickers()` array, which contains 12 separate stock tickers.  Within each ticker's respective for loop, each row is independently analyzed to see if it contains data related to that ticker, and collects the data if it is true.
+Original design is contained in the Module 1 subroutine `allStockAnalysis()`.  The below snippet contains the original design for the actual process of iterating through each ticker.  Design iterates for each ticker in the `tickers()` array, which contains 12 separate stock tickers.  Within each ticker's respective for loop, each row is independently analyzed to see if it contains data related to that ticker, and collects the data if it is true.
 
 ```
 For x = 0 To 11
@@ -81,15 +81,25 @@ For i = 2 To RowCount
         
 Next i
 ```
-## Benefits of refactors
+## Benefits and risks of refactoring
 
-### General benefits of refactoring
-
-Refactoring of complex analytical calculations is often mandatory given a large or growign data set.  The larger the data's volume and the more complex the required calculations are, the more that inefficient code can contribute to slowness and even full process failure by way of timeouts.
+Refactoring of complex analytical calculations is often mandatory given a large or growing data set.  The larger the data's volume and the more complex the required calculations are, the more that inefficient code can contribute to slowness and even full process failure by way of timeouts.
 
 In other cases, refactors can assist legibility and maintainability, and allow for expansion of existing functionality to include new use cases.
 
-### Benefits specific to this exercise
+Primary risk of refactor is the addition of new unintended defects based on a failure to understand algorithm in full or misundertanding of how the current design affected edge casess.  Without sufficient testing in place, refactors can easily create new edge case failures etc.
+
+Something about technical debt.
+
+## Analysis
+
+### Methodology
+
+Time is recorded for full execution of both versions of the code using the VBA `Timer` function, which is called at the beginning and end of the subroutines to establish total duration.
+
+Time for each was run three times, for both subroutines, with the .  See attached screenshots for sample output from before and after:
+
+### Outcome
 
 Reduction of for loops reduces number of row processing events by 91.67%.  
 Assuming a linear value for processing, this should reduce overall burden of the code above by a similar percentage, and additionally 
@@ -100,4 +110,4 @@ Assuming a linear value for processing, this should reduce overall burden of the
 * Design assumes sequential data, ordered by stock ticker and date.
 * Design assumes a fixed quantity of stock tickers
 * Test for loop directly rather than further code set to further refine refactor
-* Ticker does not factor in 
+* Ticker does not factor in (?)
