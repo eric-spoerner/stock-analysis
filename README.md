@@ -130,7 +130,7 @@ Reduction of `for` loops reduces number of row processing events in the affected
 * Original version - 0.5429688 seconds
 * Current version - 0.0878706 seconds
 
-In reality, the refactor has led to a reduction in execution time of **83.8%**.
+In reality, the refactor has led to a reduction in execution time of **83.8%**, which aligns with the above assumptions.
 
 ## Limitations of current design / Opportunities for future refactors
 
